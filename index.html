@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Landing Page</title>
+    <!-- Tailwind CSS CDN for modern, utility-first styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom CSS for themes and animations */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+        :root {
+            --bg-color-light: #f5f7fa;
+            --text-color-light: #1f2937;
+            --card-bg-light: #ffffff;
+            --accent-color-light: #3b82f6;
+            --accent-hover-light: #2563eb;
+
+            --bg-color-dark: #111827;
+            --text-color-dark: #e5e7eb;
+            --card-bg-dark: #1f2937;
+            --accent-color-dark: #818cf8;
+            --accent-hover-dark: #6366f1;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.5s ease-in-out;
+        }
+
+        /* Light Theme */
+        .light body {
+            background-color: var(--bg-color-light);
+            color: var(--text-color-light);
+        }
+        .light .card {
+            background-color: var(--card-bg-light);
+        }
+        .light .cta-button {
+            background-color: var(--accent-color-light);
+        }
+        .light .cta-button:hover {
+            background-color: var(--accent-hover-light);
+        }
+
+        /* Dark Theme */
+        .dark body {
+            background-color: var(--bg-color-dark);
+            color: var(--text-color-dark);
+        }
+        .dark .card {
+            background-color: var(--card-bg-dark);
+        }
+        .dark .cta-button {
+            background-color: var(--accent-color-dark);
+        }
+        .dark .cta-button:hover {
+            background-color: var(--accent-hover-dark);
+        }
+
+        /* Hero Animation */
+        .hero-title {
+            animation: fadeIn 1.5s ease-in-out forwards;
+            opacity: 0;
+            animation-delay: 0.3s;
+        }
+
+        .hero-subtitle {
+            animation: fadeIn 1.5s ease-in-out forwards;
+            opacity: 0;
+            animation-delay: 0.6s;
+        }
+
+        .hero-cta {
+            animation: fadeIn 1.5s ease-in-out forwards;
+            opacity: 0;
+            animation-delay: 0.9s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="transition-colors duration-500">
+    <div class="flex flex-col items-center justify-center min-h-screen p-6 md:p-12">
+        <!-- Main content card with cool styling -->
+        <div class="card w-full max-w-2xl mx-auto p-8 md:p-12 text-center rounded-3xl shadow-2xl transition-all duration-500">
+            <!-- Header and main text -->
+            <h1 class="hero-title text-4xl md:text-6xl font-extrabold mb-4">
+                Welcome to our <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">Dynamic Site</span>
+            </h1>
+            <p class="hero-subtitle text-lg md:text-xl mb-8 leading-relaxed">
+                A simple yet modern single-page website built with HTML, Tailwind CSS, and a touch of JavaScript to bring it to life.
+            </p>
+            
+            <!-- Interactive button -->
+            <div class="hero-cta flex justify-center">
+                <button id="themeToggle" class="cta-button font-bold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105">
+                    Toggle Theme
+                </button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-sm">
+            <p>Built with love and code.</p>
+        </footer>
+    </div>
+
+    <!-- JavaScript for interactivity -->
+    <script>
+        const themeToggleButton = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+
+        // Function to toggle between 'light' and 'dark' themes
+        function toggleTheme() {
+            if (htmlElement.classList.contains('light')) {
+                htmlElement.classList.remove('light');
+                htmlElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                htmlElement.classList.remove('dark');
+                htmlElement.classList.add('light');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Set initial theme based on user's preference or system setting
+        function setInitialTheme() {
+            const storedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (storedTheme === 'dark' || (storedTheme === null && prefersDark)) {
+                htmlElement.classList.add('dark');
+                htmlElement.classList.remove('light');
+            } else {
+                htmlElement.classList.add('light');
+                htmlElement.classList.remove('dark');
+            }
+        }
+
+        // Add event listener to the button
+        themeToggleButton.addEventListener('click', toggleTheme);
+
+        // Call the function to set the theme on page load
+        setInitialTheme();
+    </script>
+</body>
+</html>
